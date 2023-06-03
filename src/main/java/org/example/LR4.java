@@ -1,17 +1,21 @@
 package org.example;
 
+import protection.model.dataobjects.measurements.Point;
 import protection.model.logicalnodes.Breaker.CSWI;
 import protection.model.logicalnodes.Breaker.XCBR;
-import protection.model.logicalnodes.commands.RPSB;
+import protection.model.logicalnodes.commands.PHAR;
+import protection.model.logicalnodes.commands.PTRC;
 import protection.model.logicalnodes.common.LN;
 import protection.model.logicalnodes.gui.NHMI;
+import protection.model.logicalnodes.gui.NHMIP;
 import protection.model.logicalnodes.gui.other.NHMISignal;
 import protection.model.logicalnodes.input.LCOM;
 import protection.model.logicalnodes.measurements.MHAI;
 import protection.model.logicalnodes.measurements.MMXU;
 import protection.model.logicalnodes.measurements.RMXU;
 import protection.model.logicalnodes.protections.PDIF;
-import protection.model.logicalnodes.protections.PDIS;
+import protection.model.logicalnodes.protections.PIOC;
+import protection.model.logicalnodes.protections.PTOC;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,101 +29,175 @@ public class LR4 {
         LCOM lcom = new LCOM();
         lnList.add(lcom);
 
-        lcom.readComtrade("C:\\Users\\илья\\Desktop\\10 семестр\\Алгоритмы\\Опыты\\DPT\\Trans3Obm\\Trans3ObmVnutAB");
+        lcom.readComtrade("C:\\Users\\илья\\Desktop\\10 семестр\\Алгоритмы\\Опыты\\DPT\\Trans3Obm\\Trans3ObmVkl");
 
 
-        MMXU mmxu1VN = new MMXU();
-        MMXU mmxu2SN = new MMXU();
-        MMXU mmxu3NN = new MMXU();
-        MHAI mhai1VN = new MHAI();
-        MHAI mhai2SN = new MHAI();
-        MHAI mhai3NN = new MHAI();
+        MMXU mmxuVN = new MMXU();
+        MMXU mmxuSN = new MMXU();
+        MMXU mmxuNN = new MMXU();
+        MHAI mhaiVN = new MHAI();
+        MHAI mhaiSN = new MHAI();
+        MHAI mhaiNN = new MHAI();
+        PHAR pharVN = new PHAR();
+        PHAR pharSN = new PHAR();
+        PHAR pharNN = new PHAR();
         RMXU rmxu = new RMXU();
+        PTRC ptrc1 = new PTRC();
+        PTRC ptrc2 = new PTRC();
         CSWI cswi = new CSWI();
         XCBR xcbr1 = new XCBR();
         XCBR xcbr2 = new XCBR();
         XCBR xcbr3 = new XCBR();
 
         PDIF pdif = new PDIF();
+        PIOC pioc = new PIOC();
 
 
-        lnList.add(mmxu1VN);
-        lnList.add(mmxu2SN);
-        lnList.add(mmxu3NN);
-        lnList.add(mhai1VN);
-        lnList.add(mhai2SN);
-        lnList.add(mhai3NN);
+        lnList.add(mmxuVN);
+        lnList.add(mmxuSN);
+        lnList.add(mmxuNN);
+        lnList.add(mhaiVN);
+        lnList.add(mhaiSN);
+        lnList.add(mhaiNN);
         lnList.add(cswi);
-        lnList.add(xcbr1);
         lnList.add(pdif);
+        lnList.add(pioc);
         lnList.add(rmxu);
+        lnList.add(pharVN);
+        lnList.add(pharSN);
+        lnList.add(pharNN);
+        lnList.add(ptrc1);
+        lnList.add(ptrc2);
+        lnList.add(xcbr1);
+        lnList.add(xcbr2);
+        lnList.add(xcbr3);
 
 
         // Задаем сигналы
 
-        mmxu1VN.IphsAInst = lcom.OUT.get(0);
-        mmxu1VN.IphsBInst = lcom.OUT.get(1);
-        mmxu1VN.IphsCInst = lcom.OUT.get(2);
+        mmxuVN.IphsAInst = lcom.OUT.get(0);
+        mmxuVN.IphsBInst = lcom.OUT.get(1);
+        mmxuVN.IphsCInst = lcom.OUT.get(2);
 
 
-        mmxu2SN.IphsAInst = lcom.OUT.get(3);
-        mmxu2SN.IphsBInst = lcom.OUT.get(4);
-        mmxu2SN.IphsCInst = lcom.OUT.get(5);
+        mmxuSN.IphsAInst = lcom.OUT.get(3);
+        mmxuSN.IphsBInst = lcom.OUT.get(4);
+        mmxuSN.IphsCInst = lcom.OUT.get(5);
 
-        mmxu3NN.IphsAInst = lcom.OUT.get(6);
-        mmxu3NN.IphsBInst = lcom.OUT.get(7);
-        mmxu3NN.IphsCInst = lcom.OUT.get(8);
+        mmxuNN.IphsAInst = lcom.OUT.get(6);
+        mmxuNN.IphsBInst = lcom.OUT.get(7);
+        mmxuNN.IphsCInst = lcom.OUT.get(8);
 
-        mhai1VN.IphsAInst = lcom.OUT.get(0);
-        mhai1VN.IphsBInst = lcom.OUT.get(1);
-        mhai1VN.IphsCInst = lcom.OUT.get(3);
+        mhaiVN.IphsAInst = lcom.OUT.get(0);
+        mhaiVN.IphsBInst = lcom.OUT.get(1);
+        mhaiVN.IphsCInst = lcom.OUT.get(2);
 
-        mhai2SN.IphsAInst = lcom.OUT.get(3);
-        mhai2SN.IphsBInst = lcom.OUT.get(4);
-        mhai2SN.IphsCInst = lcom.OUT.get(5);
+        mhaiSN.IphsAInst = lcom.OUT.get(3);
+        mhaiSN.IphsBInst = lcom.OUT.get(4);
+        mhaiSN.IphsCInst = lcom.OUT.get(5);
 
-        mhai3NN.IphsAInst = lcom.OUT.get(6);
-        mhai3NN.IphsBInst = lcom.OUT.get(7);
-        mhai3NN.IphsCInst = lcom.OUT.get(8);
+        mhaiNN.IphsAInst = lcom.OUT.get(6);
+        mhaiNN.IphsBInst = lcom.OUT.get(7);
+        mhaiNN.IphsCInst = lcom.OUT.get(8);
 
-        NHMI nhmi = new NHMI();
-        lnList.add(nhmi);
+        pharVN.setHA(mhaiVN.getHA());
+        pharSN.setHA(mhaiSN.getHA());
+        pharNN.setHA(mhaiNN.getHA());
 
-//        mhai1VN.getHA().getNumHar().setValue(5);
-
-        pdif.setDifAClc(rmxu.getALoc());
-        pdif.setHarm(mhai1VN.getHA());
-        pdif.setHarm(mhai2SN.getHA());
-        pdif.setHarm(mhai3NN.getHA());
-        pdif.setRstA(rmxu.getRstA());
-        pdif.setK(0.45);
-        pdif.getOpDiTmms().setDelay(15);
-        pdif.setRst0(300);
+        rmxu.getInputA().add(mmxuVN.getA());
+        rmxu.getInputA().add(mmxuSN.getA());
+        rmxu.getInputA().add(mmxuNN.getA());
+        rmxu.getTmASt().getCrvPvs().add(new Point(0d,1000d));
+        rmxu.getTmASt().getCrvPvs().add(new Point(250d,1000d));
+        rmxu.getTmASt().getCrvPvs().add(new Point(1000d,2000d));
+        rmxu.process();
 
 
-        cswi.setOpOpn1(pdif.getOp());
-        cswi.setOpOpn2(pdif.getOp());
-        cswi.setOpOpn3(pdif.getOp());
+
+//        NHMI nhmia = new NHMI();
+//        NHMI nhmib = new NHMI();
+//        NHMI nhmic = new NHMI();
+        NHMI nhmiDif = new NHMI();
+        NHMIP nhmip = new NHMIP();
+        lnList.add(nhmiDif);
+
+
+        pdif.getInputHarm().add(mhaiVN.getHA());
+        pdif.getInputHarm().add(mhaiSN.getHA());
+        pdif.getInputHarm().add(mhaiNN.getHA());
+        pdif.setDifAClc(rmxu.getDifoutput().get(0));
+        pdif.setTripPoint(rmxu.getTripPoint());
+        pdif.getStrVal().getSetMag().getF().setValue(500d);
+        pdif.getMinOpTmms().setDelay(5d);
+        pdif.getStrHarm().getSetMag().getF().setValue(0.02d);
+
+
+        ptrc1.setBlk1(pharVN.getBlK());
+        ptrc1.setBlk2(pharSN.getBlK());
+        ptrc1.setBlk3(pharNN.getBlK());
+
+        pdif.setBlk(ptrc1.getOp().getGeneral());
+
+        pioc.A = rmxu.getDif();
+        pioc.getStrVal().getSetMag().getF().setValue(400d);
+
+        ptrc2.setOpCls1(pdif.getOp());
+        ptrc2.setOpCls2(pioc.getOp());
+
+
+
+
+        cswi.setOpOpn1(ptrc2.getOpOpn());
+        cswi.setOpOpn2(ptrc2.getOpOpn());
+        cswi.setOpOpn3(ptrc2.getOpOpn());
 
         xcbr1.setPos(cswi.getPos());
         xcbr2.setPos(cswi.getPos());
         xcbr3.setPos(cswi.getPos());
+        lnList.add(nhmip);
 
 
-        nhmi.addSignals(
-                new NHMISignal("IaVN", mmxu1VN.IphsAInst.getInstMag().getF()),
-                new NHMISignal("IaSN", mmxu2SN.IphsAInst.getInstMag().getF()),
-                new NHMISignal("IaNN",mmxu3NN.IphsAInst.getInstMag().getF())
+
+//        nhmip.drawCharacteristic("Тормозная характеристика", NHMIP.getNhmiPoints(0,1000,250,1000,1000,2000,2000,2000));
+//        nhmip.addSignals(new NHMISignal("Ток",pdif.getTripPoint().getPhsA().getCVal().getMag().getF(),pdif.getDifAClc().getPhsA().getCVal().getMag().getF()));
+
+        nhmiDif.addSignals(
+                new NHMISignal("IADIF",rmxu.getDifoutput().get(0).getPhsA().getCVal().getMag().getF()),
+                new NHMISignal("TripPoint",rmxu.getTripPoint().getPhsA().getCVal().getMag().getF())
+
         );
-        nhmi.addSignals(
-                new NHMISignal("Срабатывание дифф.защиты", pdif.getOp().getGeneral())
+        nhmiDif.addSignals(
+                new NHMISignal("IBDIF",rmxu.getDifoutput().get(0).getPhsB().getCVal().getMag().getF())
+
+        );
+        nhmiDif.addSignals(
+                new NHMISignal("ICDIF",rmxu.getDifoutput().get(0).getPhsC().getCVal().getMag().getF())
+
+        );
+        nhmiDif.addSignals(
+                new NHMISignal("Protection",pdif.getOp().getGeneral())
+        );
+        nhmiDif.addSignals(
+                new NHMISignal("Block",ptrc1.getOp().getGeneral())
+        );
+
+        nhmiDif.addSignals(
+                new NHMISignal("Breaker",xcbr1.getPos().getCtVal())
+        );
+
+        nhmiDif.addSignals(
+                new NHMISignal("PIOC",pioc.Op.getGeneral())
         );
 
 
         while (lcom.hasNextData()) {
+
+
             lnList.forEach(LN::process);
 
+
         }
+
 
 
     }

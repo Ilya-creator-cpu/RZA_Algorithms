@@ -1,20 +1,19 @@
 package org.example;
 
-import protection.model.dataobjects.measurements.CMV;
 import protection.model.logicalnodes.gui.NHMIP;
 import protection.model.logicalnodes.gui.other.NHMIPoint;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LR3Test {
+public class DIrectExample {
 
     public boolean line1,line2,line3,line4;
 
     public static void main(String[] args) {
 
-        double x = -100d;
-        double y = -80d;
+        double x = 150d;
+        double y = 125d;
 
         NHMIP nhmip = new NHMIP();
 
@@ -44,8 +43,6 @@ public class LR3Test {
         double b23 = x2 - k23*r2;
         double b34 = x3 - k34*r3;
         double b41 = x4 - k41*r4;
-
-
 
         boolean line1 = y <= k12*x + b12;
         boolean line2 = y >= k23*x + b23;

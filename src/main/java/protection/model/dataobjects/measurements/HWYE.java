@@ -21,7 +21,7 @@ public class HWYE extends DATA {
 
 
     public HWYE() {
-        for (int i = 0; i <= numHar.getValue(); i++) {
+        for (int i = 0; i < 5; i++) {
             phsAHar.add(new CMV());
             phsBHar.add(new CMV());
             phsCHar.add(new CMV());

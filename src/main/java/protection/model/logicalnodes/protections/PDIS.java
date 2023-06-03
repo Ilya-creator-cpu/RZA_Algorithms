@@ -11,6 +11,9 @@ import protection.model.logicalnodes.Setter.ING;
 import protection.model.logicalnodes.commands.SPS;
 import protection.model.logicalnodes.common.LN;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter @Setter
 public class PDIS extends LN {
 
@@ -29,7 +32,7 @@ public class PDIS extends LN {
     private boolean phsA = false;
     private boolean phsB = false;
     private boolean phsC = false;
-
+    public ACD Dir = new ACD();
     private double delay;
 
     private double x0;
@@ -38,6 +41,8 @@ public class PDIS extends LN {
 
     public ING OpDlTmms = new ING();
 
+    public ING DirMod = new ING();
+
     public boolean inChr;
 
     public boolean line1, line2, line3, line4, line5;
@@ -45,12 +50,20 @@ public class PDIS extends LN {
     public double x1, x2, x3, x4, x5;
     public double r1, r2, r3, r4, r5;
 
+    private List<Double> chrList = new ArrayList<>();
+
 
 
     @Override
     public void process() {
 
+
+
+
         if (Blk.getСtVal().getValue()) {
+
+
+
 
 
             phsA = inCharacteristic(Z.getPhsA());
@@ -58,6 +71,16 @@ public class PDIS extends LN {
             phsB = inCharacteristic(Z.getPhsB());
 
             phsC = inCharacteristic(Z.getPhsC());
+            if (DirMod.getSetVal().getValue() == 1 && Dir.getGeneral().getValue()) {
+
+                phsA = inDirectCharacteristic(Z.getPhsA());
+
+                phsB = inDirectCharacteristic(Z.getPhsB());
+
+                phsC = inDirectCharacteristic(Z.getPhsC());
+
+
+            }
 
 
 
@@ -70,17 +93,21 @@ public class PDIS extends LN {
 
             if (Str.getGeneral().getValue()) {
 
-
                 delay++;
 
             } else
                 delay = 0;
 
-            Op.getGeneral().setValue(Str.getGeneral().getValue() && delay > OpDlTmms.delay);
+            Op.getGeneral().setValue((Str.getGeneral().getValue() && delay > OpDlTmms.delay));
 
             Op.getPhsA().setValue(Str.getPhsA().getValue() && delay > OpDlTmms.delay);
             Op.getPhsB().setValue(Str.getPhsB().getValue() && delay > OpDlTmms.delay);
             Op.getPhsC().setValue(Str.getPhsC().getValue() && delay > OpDlTmms.delay);
+
+
+
+
+
         }
     }
 
@@ -104,7 +131,33 @@ public class PDIS extends LN {
         line3 = MV.getCVal().getX().getF().getValue() >= k34*MV.getCVal().getR().getF().getValue() + b34;
         line4 = MV.getCVal().getX().getF().getValue() >= k41*MV.getCVal().getR().getF().getValue() + b41;
 
+
+//        System.out.println("Линия сверху:" +MV.getCVal().getX().getF().getValue() + " : " + k12*MV.getCVal().getR().getF().getValue() + b12 );
+//        System.out.println("Линия слева:" +MV.getCVal().getX().getF().getValue() + " : " + k23*MV.getCVal().getR().getF().getValue() + b23);
+//        System.out.println("Линия снизу:" + MV.getCVal().getX().getF().getValue()+ " : " + k34*MV.getCVal().getR().getF().getValue() + b34 );
+
         return (line1 && line2 && line3 && line4);
+    }
+    public boolean inDirectCharacteristic(CMV MV) {
+
+        double k12 = (x1 - x2) / (r1 - r2);
+        double k23 = (x2 - x3) / (r2 - r3);
+        double k34 = (x3 - x4) / (r3 - r4);
+
+        double b12 = x1 - k12*r1;
+        double b23 = x2 - k23*r2;
+        double b34 = x3 - k34*r3;
+
+
+
+
+        line1 = MV.getCVal().getX().getF().getValue() <= k12*MV.getCVal().getR().getF().getValue() + b12;
+        line2 = MV.getCVal().getX().getF().getValue() <= k23*MV.getCVal().getR().getF().getValue() + b23;
+        line3 = MV.getCVal().getX().getF().getValue() >= k34*MV.getCVal().getR().getF().getValue() + b34;
+
+
+
+        return (line1 && line2 && line3);
     }
 
 

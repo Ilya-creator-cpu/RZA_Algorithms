@@ -54,5 +54,10 @@ public class RDIR extends LN {
         else {
             Dir.getDirGeneral().setValue(BACKWARD);
         }
+
+        if (W.getPhsA().getCVal().getR().getF().getValue() < 0 || W.getPhsB().getCVal().getR().getF().getValue() < 0 ||
+                W.getPhsC().getCVal().getR().getF().getValue() < 0) {
+            Dir.getGeneral().setValue(true);
+        }
     }
 }

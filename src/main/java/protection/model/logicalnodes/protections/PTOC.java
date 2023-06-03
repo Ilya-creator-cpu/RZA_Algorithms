@@ -33,6 +33,7 @@ public class PTOC extends LN {
     public boolean accelerate;
     public WYE A = new WYE();
 
+
     public ING DirMod = new ING();
 
     public ACD Dir = new ACD();

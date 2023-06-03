@@ -2,8 +2,7 @@ package protection.model.logicalnodes.commands;
 
 import lombok.Getter;
 import lombok.Setter;
-import protection.model.dataobjects.measurements.SEQ;
-import protection.model.dataobjects.measurements.Vector;
+import protection.model.dataobjects.measurements.MV;
 import protection.model.dataobjects.measurements.WYE;
 import protection.model.dataobjects.protection.ACD;
 import protection.model.dataobjects.protection.ACT;
@@ -19,16 +18,24 @@ public class RPSB extends LN {
     private ACD Str = new ACD();
     private ACT Op = new ACT();
     private SPS BlkZn = new SPS();
-    private SEQ SeqA = new SEQ();
-    private SEQ SeqV = new SEQ();
 
     private List<Double> currentList = new ArrayList<>();
 
     private List<WYE> voltageList = new ArrayList<>();
 
-    private WYE current = new WYE();
+    private MV currentA = new MV();
 
-    private WYE voltage;
+    private MV currentB = new MV();
+
+    private MV currentC = new MV();
+
+    private MV voltageA = new MV();
+
+    private MV voltageB = new MV();
+
+    private MV voltageC = new MV();
+
+    private WYE voltage = new WYE();
 
 
     private boolean isBlocked;
@@ -50,28 +57,40 @@ public class RPSB extends LN {
 
     private double bufferVoltageC;
 
+    private double BlkValue;
+
+    private double currCurrentA;
+    private double currCurrentB;
+    private double currCurrentC;
+
+    private double currVoltageB;
+    private double currVoltageC;
+
 
 
     @Override
     public void process() {
 
-        BlkZn.getСtVal().setValue(((current.getPhsA().getCVal().getMag().getF().getValue() - bufferCurrentA) > 40)
-        || (current.getPhsB().getCVal().getMag().getF().getValue() - bufferCurrentB) > 40 ||
-                (current.getPhsC().getCVal().getMag().getF().getValue() - bufferCurrentC > 40)
-        && ((bufferVoltageA - voltage.getPhsA().getCVal().getMag().getF().getValue() > 40) ||
-                        (bufferVoltageB - voltage.getPhsB().getCVal().getMag().getF().getValue() > 40) ||
-                        bufferVoltageC - voltage.getPhsC().getCVal().getMag().getF().getValue() > 40)) ;
 
 
 
-           bufferCurrentA = current.getPhsA().getCVal().getMag().getF().getValue();
-           bufferVoltageA = voltage.getPhsA().getCVal().getMag().getF().getValue();
 
-           bufferCurrentB = current.getPhsB().getCVal().getMag().getF().getValue();
-           bufferVoltageB = voltage.getPhsB().getCVal().getMag().getF().getValue();
 
-           bufferCurrentC = current.getPhsC().getCVal().getMag().getF().getValue();
-           bufferVoltageC = voltage.getPhsC().getCVal().getMag().getF().getValue();
+        BlkZn.getСtVal().setValue((Math.abs(currentA.getInstMag().getF().getValue() - bufferCurrentA) > BlkValue) ||
+                (Math.abs(currentB.getInstMag().getF().getValue() - bufferCurrentB)) > BlkValue ||
+                (Math.abs(currentC.getInstMag().getF().getValue() - bufferCurrentC) > BlkValue) &&
+                (Math.abs(bufferVoltageA - voltageA.getInstMag().getF().getValue()) > BlkValue ||
+                Math.abs(bufferVoltageB - voltageB.getInstMag().getF().getValue()) > BlkValue ||
+                Math.abs(bufferVoltageC - voltageC.getInstMag().getF().getValue()) > BlkValue));
+
+           bufferCurrentA = currentA.getInstMag().getF().getValue();
+           bufferVoltageA = voltageA.getInstMag().getF().getValue();
+
+           bufferCurrentB = currentA.getInstMag().getF().getValue();
+           bufferVoltageB = voltageB.getInstMag().getF().getValue();
+
+           bufferCurrentC = currentA.getInstMag().getF().getValue();
+           bufferVoltageC = voltageC.getInstMag().getF().getValue();
 
         }
 

@@ -28,7 +28,7 @@ public class LR2 {
 //                "PhA80"
 //        );
 
-        lcom.readComtrade("C:\\Users\\илья\\Desktop\\10 семестр\\Алгоритмы\\Опыты\\KZ7");
+        lcom.readComtrade("C:\\Users\\илья\\Desktop\\10 семестр\\Алгоритмы\\Опыты\\KZ1");
 
         MMXU mmxu = new MMXU();
         CSWI cswi = new CSWI();

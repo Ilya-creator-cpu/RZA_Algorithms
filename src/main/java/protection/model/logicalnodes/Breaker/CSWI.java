@@ -27,15 +27,23 @@ public class CSWI extends LN {
     private DPC Pos = new DPC();
 
 
+
+
     @Override
     public void process() {
+
+
 
         if (OpOpn1.getGeneral().getValue() || OpOpn2.getGeneral().getValue()
         || OpOpn3.getGeneral().getValue() || OpOpn4.getGeneral().getValue()
                 || OpOpn5.getGeneral().getValue() || OpOpn6.getGeneral().getValue()
         ) {
-//            System.out.println("Вырубаем");
+
             Pos.getCtVal().setValue(false);
+
         }
+        else Pos.getCtVal().setValue(true);
+
+
     }
 }

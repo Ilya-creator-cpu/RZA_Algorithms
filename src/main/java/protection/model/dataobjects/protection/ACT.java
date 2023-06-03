@@ -12,7 +12,6 @@ import protection.model.common.DataAttribute;
  */
 public class ACT extends DATA {
 
-    private boolean fail;
 
     @Getter @Setter
     private DataAttribute<Boolean> general = new DataAttribute<>(false);

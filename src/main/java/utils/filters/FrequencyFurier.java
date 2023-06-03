@@ -13,7 +13,7 @@ import protection.model.dataobjects.measurements.SEQ;
 @Getter @Setter
 public class FrequencyFurier extends DATA {
     private SEQ SeqA = new SEQ();
-    private int size = 80;
+    private int size = 20;
     private double[] bufferX = new double[4000];
     private double[] bufferY = new double[4000];
     private double sumX = 0;
@@ -27,7 +27,6 @@ public class FrequencyFurier extends DATA {
 
     private int new_size;
 
-    private double bufferFrequency;
 
  //   private double K = Math.exp(-1.5);
 
@@ -35,7 +34,6 @@ public class FrequencyFurier extends DATA {
 
     public FrequencyFurier(double frequency) {
         this.frequency = frequency;
-        bufferFrequency = frequency;
 
 
     }
@@ -51,19 +49,13 @@ public class FrequencyFurier extends DATA {
         k = Math.sqrt(2)/new_size;
 
 
-        fx = mv.getInstMag().getF().getValue()*Math.sin(2*Math.PI*count/size);
-        fy = mv.getInstMag().getF().getValue()*Math.cos(2*Math.PI*count/size);
+        fx += k *mv.getInstMag().getF().getValue()*Math.sin(2*Math.PI*count/size) - bufferX[count];
+        fy += k * mv.getInstMag().getF().getValue()*Math.cos(2*Math.PI*count/size) - bufferY[count];
+        bufferX[count] = (k * mv.getInstMag().getF().getValue()*Math.sin(2*Math.PI*count/size));
+        bufferY[count] = (k * mv.getInstMag().getF().getValue()*Math.cos(2*Math.PI*count/size));
 
 
-        sumX += fx - bufferX[count];
-        sumY += fy - bufferY[count];
-        bufferX[count] = (mv.getInstMag().getF().getValue()*Math.sin(2*Math.PI*count/size));
-        bufferY[count] = (mv.getInstMag().getF().getValue()*Math.cos(2*Math.PI*count/size));
-
-        Fx = k * sumX;
-        Fy = k * sumY;
-
-        cmv.getCVal().setOrt(Fx,Fy);
+        cmv.getCVal().ToVector(fx,fy);
         if(++count >= size) count = 0;
 
     }

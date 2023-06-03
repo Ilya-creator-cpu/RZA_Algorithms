@@ -59,13 +59,9 @@ public class MMXU extends LN {
 
     private double bufferValue;
 
-
-
-
-
     private final Filter phsACurrent = new Furier();
     private final Filter phsBCurrent = new Furier();
-    private final Filter phsCCurrent = new Furier();
+    private final Furier phsCCurrent = new Furier();
 
     private final Filter phsAVoltage = new Furier();
 
@@ -73,7 +69,7 @@ public class MMXU extends LN {
 
     private final Filter phsCVoltage = new Furier();
 
-    private double i1x,i2x,i3x,i1y,i2y,i3y,u1x,u2x,u3x,u1y,u2y,u3y;
+    private double Iax, Ibx, Icx, Iay, Iby, Icy, Uax, Ubx, Ucx, Uay, Uby, Ucy;
 
     private ArrayList <Double> bufferList = new ArrayList<>();
 
@@ -113,6 +109,8 @@ public class MMXU extends LN {
                 Math.cos(PhV.getPhsC().getCVal().getAng().getF().getValue()-
                         A.getPhsC().getCVal().getAng().getF().getValue()));
 
+
+
         // Полная мощность
 
         VA.getPhsA().getCVal().getMag().getF().setValue(
@@ -138,49 +136,42 @@ public class MMXU extends LN {
     public void getResist(CMV i1, CMV i2, CMV i3, CMV u1, CMV u2, CMV u3) {
 
 
-        u1x = u1.getCVal().getOrtX(u1.getCVal().getMag().getF().getValue(),u1.getCVal().getAng().getF().getValue());
-        i1x = i1.getCVal().getOrtX(i1.getCVal().getMag().getF().getValue(),i1.getCVal().getAng().getF().getValue());
-        u1y = u1.getCVal().getOrtY(u1.getCVal().getMag().getF().getValue(),u1.getCVal().getAng().getF().getValue());
-        i1y = i1.getCVal().getOrtY(i1.getCVal().getMag().getF().getValue(),i1.getCVal().getAng().getF().getValue());
+        Uax = u1.getCVal().getOrtX(u1.getCVal().getMag().getF().getValue(),u1.getCVal().getAng().getF().getValue());
+        Iax = i1.getCVal().getOrtX(i1.getCVal().getMag().getF().getValue(),i1.getCVal().getAng().getF().getValue());
+        Uay = u1.getCVal().getOrtY(u1.getCVal().getMag().getF().getValue(),u1.getCVal().getAng().getF().getValue());
+        Iay = i1.getCVal().getOrtY(i1.getCVal().getMag().getF().getValue(),i1.getCVal().getAng().getF().getValue());
 
 
-        u2x = u2.getCVal().getOrtX(u2.getCVal().getMag().getF().getValue(),u2.getCVal().getAng().getF().getValue());
-        i2x = i2.getCVal().getOrtX(i2.getCVal().getMag().getF().getValue(),i2.getCVal().getAng().getF().getValue());
-        u2y = u2.getCVal().getOrtY(u2.getCVal().getMag().getF().getValue(),u2.getCVal().getAng().getF().getValue());
-        i2y = i2.getCVal().getOrtY(i2.getCVal().getMag().getF().getValue(),i2.getCVal().getAng().getF().getValue());
+        Ubx = u2.getCVal().getOrtX(u2.getCVal().getMag().getF().getValue(),u2.getCVal().getAng().getF().getValue());
+        Ibx = i2.getCVal().getOrtX(i2.getCVal().getMag().getF().getValue(),i2.getCVal().getAng().getF().getValue());
+        Uby = u2.getCVal().getOrtY(u2.getCVal().getMag().getF().getValue(),u2.getCVal().getAng().getF().getValue());
+        Iby = i2.getCVal().getOrtY(i2.getCVal().getMag().getF().getValue(),i2.getCVal().getAng().getF().getValue());
 
 
-        u3x = u3.getCVal().getOrtX(u3.getCVal().getMag().getF().getValue(),u3.getCVal().getAng().getF().getValue());
-        i3x = i3.getCVal().getOrtX(i3.getCVal().getMag().getF().getValue(),i3.getCVal().getAng().getF().getValue());
-        u3y = u3.getCVal().getOrtY(u3.getCVal().getMag().getF().getValue(),u3.getCVal().getAng().getF().getValue());
-        i3y = i3.getCVal().getOrtY(i3.getCVal().getMag().getF().getValue(),i3.getCVal().getAng().getF().getValue());
+        Ucx = u3.getCVal().getOrtX(u3.getCVal().getMag().getF().getValue(),u3.getCVal().getAng().getF().getValue());
+        Icx = i3.getCVal().getOrtX(i3.getCVal().getMag().getF().getValue(),i3.getCVal().getAng().getF().getValue());
+        Ucy = u3.getCVal().getOrtY(u3.getCVal().getMag().getF().getValue(),u3.getCVal().getAng().getF().getValue());
+        Icy = i3.getCVal().getOrtY(i3.getCVal().getMag().getF().getValue(),i3.getCVal().getAng().getF().getValue());
 
 
         Z.getPhsA().getCVal().getR().getF().setValue(
-                (((u1x-u2x)*(i1x-i2x)+(u1y-u2y)*(i1y-i2y))/(Math.pow((i1x-i2x),2)+Math.pow((i1y-i2y),2)))
+                (Uax/Iax)
         );
 
         Z.getPhsA().getCVal().getX().getF().setValue(
-                -(((u1y-u2y)*(i1x-i2x)-(u1x-u2x)*(i1y-i2y))/(Math.pow((i1x-i2x),2)+Math.pow((i1y-i2y),2)))
-        );
+                Uay/Iay);
 
         Z.getPhsB().getCVal().getR().getF().setValue(
-               (((u2x-u3x)*(i2x-i3x)+(u2y-u3y)*(i2y-i3y))/(Math.pow((i2x-i3x),2)+Math.pow((i2y-i3y),2)))
-        );
+               Ubx/Ibx);
         Z.getPhsB().getCVal().getX().getF().setValue(
-                -(((u2y-u3y)*(i2x-i3x)-(u2x-u3x)*(i2y-i3y))/(Math.pow((i2x-i3x),2)+Math.pow((i2y-i3y),2)))
+               Uby/Iby
         );
         Z.getPhsC().getCVal().getR().getF().setValue(
-                (((u3x-u1x)*(i3x-i1x)+(u3y-u1y)*(i3y-i1y))/(Math.pow((i3x-i1x),2)+Math.pow((i3y-i1y),2)))
+                Ucx/Icx
         );
         Z.getPhsC().getCVal().getX().getF().setValue(
-                -(((u3y-u1y)*(i3x-i1x)-(u3x-u1x)*(i3y-i1y))/(Math.pow((i3x-i1x),2)+Math.pow((i3y-i1y),2)))
+                Ucy/Icy
         );
-
-
-
-
-
     }
 
     public void getFrequency(double measurements) {

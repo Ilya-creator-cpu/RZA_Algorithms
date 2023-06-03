@@ -176,4 +176,36 @@ public class NHMIP extends LN {
 		return pointsList;
 	}
 
+	public static List<NHMIPoint<Double,Double>> getUnDirectPoints(double x1,double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
+
+		List<NHMIPoint<Double, Double>> pointsList = new ArrayList<>();
+		for (double x = x1; x >= x2; x -= 0.1) {
+			pointsList.add(new NHMIPoint<>(x, y1));
+		}
+		double x = x2;
+		double y = y2;
+		while (x <= x3) {
+			pointsList.add(new NHMIPoint<>(x, y));
+			y = y - (y2-y3)/(Math.abs(x3-x2))/10;
+			x = x + 0.1;
+		}
+
+		y = y3;
+
+		for ( x = x3; x <= x4; x += 0.1) {
+			pointsList.add(new NHMIPoint<>(x, y));
+		}
+		x= x4;
+
+		while (y <= y1) {
+			pointsList.add(new NHMIPoint<>(x,y));
+			y = y + (y1 - y3)/(Math.abs(x1 -x4))/10;
+			x = x - 0.1;
+		}
+
+
+		return pointsList;
+
+	}
+
 }
